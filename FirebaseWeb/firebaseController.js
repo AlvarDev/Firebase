@@ -12,9 +12,17 @@ firebase.initializeApp(config);
 var dbRef = firebase.database().ref().child("message");
 dbRef.on('value', snap => setMessages(snap.val()));
 
-function setMessages(messages){
-  var res = messages.replace("\n", "<br>");
-  $("#messages").text("");
-  $("#messages").append(res);
+function setMessages(messages) {
+    var mes = messages.split("\n");
+    $("#messages").text("");
+    $(".remove").remove();
+
+    var html = "";
+
+    $.each(mes, function(i, item) {
+        html += '<div class="remove">' + item + '</div>';
+    });
+
+    $("#messages").append(html);
 
 }
