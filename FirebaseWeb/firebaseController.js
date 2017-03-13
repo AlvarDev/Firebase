@@ -1,3 +1,6 @@
+var dbRef;
+var data;
+
 // Initialize Firebase
 var config = {
     apiKey: "AIzaSyB7chZF-ccNkR3ldpPD-GyYmkKFwo7OYXo",
@@ -9,10 +12,11 @@ var config = {
 
 firebase.initializeApp(config);
 
-var dbRef = firebase.database().ref().child("message");
+dbRef = firebase.database().ref().child("message");
 dbRef.on('value', snap => setMessages(snap.val()));
 
 function setMessages(messages) {
+    data = messages;
     var mes = messages.split("\n");
     $("#messages").text("");
     $(".remove").remove();
@@ -24,5 +28,15 @@ function setMessages(messages) {
     });
 
     $("#messages").append(html);
+}
+
+function send(){
+  var message = $('#typed-message').val();
+  if(message.length > 0){
+    $('#typed-message').val("");
+    dbRef.set((data.length == 0 ? "" : data + "\n") + "Web: " + message);
+  }else{
+    console.log("Message is empty");
+  }
 
 }
