@@ -15,6 +15,13 @@ firebase.initializeApp(config);
 dbRef = firebase.database().ref().child("message");
 dbRef.on('value', snap => setMessages(snap.val()));
 
+document.getElementById("messages") .addEventListener("keydown", function(event) { 
+    event.preventDefault(); 
+    if (event.keyCode == 13) { 
+        send(); 
+    } 
+});
+
 function setMessages(messages) {
     data = messages;
     var mes = messages.split("\n");
